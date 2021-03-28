@@ -1,12 +1,15 @@
 import { createStore } from "vuex";
-
+import auth from "./modules/auth";
 // Create a new store instance.
 const store = createStore({
+  modules: {
+    auth,
+  },
   state() {
     return {
       // user: null,
       apiUrl: process.env.VUE_APP_API_URL,
-      user: null,
+
       isToast: false,
       Toast: { message: "", type: "" },
     };

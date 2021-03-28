@@ -116,11 +116,11 @@
         :class="
           isLoading
             ? 'bg-gray-400 text-gray-800 cursor-not-allowed'
-            : 'bg-current text-white focus:bg-current-light'
+            : 'bg-current text-white hover:bg-current-light'
         "
         class="w-full mx-auto py-5  my-10 shadow-lg rounded-lg
                     font-medium text-white uppercase
-                    focus:outline-none hover:shadow-none"
+                    hover:outline-none hover:shadow-none"
       >
         <div v-if="!isLoading">Save</div>
       </button>
@@ -129,7 +129,13 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+export default {
+  setup() {
+    const isLoading = ref(false);
+    return { isLoading };
+  },
+};
 </script>
 
 <style></style>

@@ -66,7 +66,13 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+export default {
+  setup() {
+    const isLoading = ref(false);
+    return { isLoading };
+  },
+};
 </script>
 
 <style></style>

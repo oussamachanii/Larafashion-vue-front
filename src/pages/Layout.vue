@@ -108,23 +108,67 @@
       class="w-full mt-6 lg:mt-0 lg:block"
       :class="!isNav ? 'hidden' : 'static'"
     >
-      <div
-        class=" flex flex-col w-full lg:justify-end lg:flex-row  lg:items-center md:px-8 "
-      >
-        <button
-          class=" py-3 border hover:bg-gray-200  bg-white  text-current shadow-md rounded-lg lg:px-8 lg:mr-4"
+      <div class=" ">
+        <div
+          class="w-full lg:justify-end lg:flex-row  lg:items-center md:px-8 flex flex-col"
+          v-if="!token"
         >
-          <h4 class="text-center  font-semibold">Sign In</h4>
-        </button>
-        <button
-          class=" py-3  hover:bg-black   bg-current-dark text-white  shadow-md  rounded-lg  lg:px-8  lg:mr-4"
+          <router-link
+            :to="{ name: 'login' }"
+            class=" py-3 border hover:bg-gray-200  bg-white  text-current shadow-md rounded-lg lg:px-8 lg:mr-4"
+          >
+            <h4 class="text-center  font-semibold">Sign In</h4>
+          </router-link>
+          <router-link
+            :to="{ name: 'register' }"
+            class=" py-3  hover:bg-black   bg-current-dark text-white  shadow-md  rounded-lg  lg:px-8  lg:mr-4"
+          >
+            <h4 class="text-center font-semibold ">Sign Up</h4>
+          </router-link>
+        </div>
+        <div
+          v-else
+          class="w-full  lg:justify-end lg:flex-row  lg:items-center md:px-8  flex flex-col"
         >
-          <h4 class="text-center font-semibold ">Sign Up</h4>
-        </button>
+          <div
+            @click="IsDropOpen = !IsDropOpen"
+            class="items-center ml-3 p-2 w-45 flex relative  text-left z-50 mr-8"
+          >
+            <h6
+              class=" truncate font-semibold text-xl select-none  text-gray-800"
+            >
+              <!-- oussama chanii -->
+              {{
+                user?.first_name
+                  ? user?.first_name + " " + user?.last_name
+                  : user?.email
+              }}
+            </h6>
+            <!-- <p class=" truncate text-lg select-none  text-gray-500">
+            chaniioussama1@gmail.com
+          </p> -->
+            <svg
+              class="-mr-1 ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <DropDown v-show="IsDropOpen" @logOut="logOut"></DropDown>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
-  <router-view></router-view>
+  <div class="" @click="IsDropOpen = false">
+    <router-view></router-view>
+  </div>
   <div id="footer" class="h-52 bg-current  text-white  ">
     <div class="flex flex-col h-full  justify-between lg:container lg:mx-auto">
       <div class="flex justify-between p-4">
@@ -164,12 +208,23 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+import DropDown from "../components/DropDown";
 export default {
+  components: { DropDown },
   setup() {
+    const store = useStore();
     const isNav = ref(false);
+    const IsDropOpen = ref(false);
     const isCard = ref(false);
-    return { isNav, isCard };
+    const token = computed(() => store.getters.getApiToken);
+    const user = computed(() => store.getters.getUser);
+    const logOut = () => {
+      store.commit("logOut");
+      // alert("logOut hitted");
+    };
+    return { isNav, isCard, token, IsDropOpen, user, logOut };
   },
 };
 </script>

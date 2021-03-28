@@ -35,14 +35,22 @@ const routes = [
     ],
   },
   {
-    path: "/login",
+    path: "/sign-in",
     name: "login",
     component: Login,
+    beforeEnter: (_, __, next) => {
+      if (store.state.auth.api_token) return history.back();
+      return next();
+    },
   },
   {
-    path: "/register",
+    path: "/sign-up",
     name: "register",
     component: Register,
+    beforeEnter: (_, __, next) => {
+      if (store.state.auth.api_token) return history.back();
+      return next();
+    },
   },
   {
     path: "/complete-information",
@@ -53,10 +61,11 @@ const routes = [
     path: "/dashboard/",
     component: Dashboard,
     beforeEnter: (_, __, next) => {
-      if (store.state.user == 1) return next();
+      if (store.state.auth.api_token && store.state.user == 1) return next();
       // if (store.state.user == 0) next(from);
-      if (store.state.user == 0) return history.back();
-      return next("/login");
+      if (store.state.auth.api_token && store.state.user == 0)
+        return history.back();
+      return next("/sign-in");
       // store.state.user == 1 ? next() : next("/login");
       // console.log("i am in admin page");
     },
@@ -93,7 +102,7 @@ const routes = [
     path: "/settings",
     component: Settings,
     beforeEnter: (_, __, next) => {
-      store.state.user ? next() : next("/login");
+      store.state.auth.api_token ? next() : next("/sign-in");
       // console.log("i am in admin page");
     },
   },
