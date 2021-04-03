@@ -87,102 +87,10 @@
       </div>
     </div>
   </div>
-  <div class=" lg:container lg:mx-auto z-50 ">
-    <div id="header" class="flex justify-between items-center pl-8 mt-6">
-      <h2 class="text-current text-5xl font-bold">Trend</h2>
-      <select
-        name=""
-        id=""
-        class="border py-4 px-6 rounded-md border-gray-300 md:hidden "
-      >
-        <option v-for="i in 5" :key="i" value="all" class="h-12 hover:text-4xl"
-          >All Categories {{ i }}</option
-        >
-      </select>
-      <nav class="hidden md:flex justify-between mr-4 font-normal">
-        <span
-          class="py-4 border-b-4 capitalize font-semibold  border-current-light"
-          >All Categories</span
-        >
-        <span class="py-4 border-b capitalize ml-12">shoes</span>
-        <span class="py-4 border-b capitalize ml-12">t-shirts</span>
-        <span class="py-4 border-b capitalize ml-12">Jackets</span>
-        <span class="py-4 border-b capitalize ml-12">trousers</span>
-      </nav>
-    </div>
-    <!-- <div class="flex my-8">
-      <Card v-for="i in 4" :key="i"></Card>
-    </div> -->
-    <div
-      class="flex flex-col w-full flex-wrap md:flex-row md:justify-around my-16"
-    >
-      <Card v-for="i in 4" :key="i"></Card>
-    </div>
-  </div>
-  <div class=" lg:container lg:mx-auto z-50 ">
-    <div id="header" class="flex justify-between items-center pl-8 mt-6">
-      <select
-        name=""
-        id=""
-        class="border py-4 px-6 rounded-md border-gray-300 md:hidden "
-      >
-        <option v-for="i in 5" :key="i" value="all" class="h-12 hover:text-4xl"
-          >All Categories {{ i }}</option
-        >
-      </select>
-      <nav class="hidden md:flex justify-between mr-4 font-normal">
-        <span
-          class="py-4 border-b-4 capitalize font-semibold  border-current-light"
-          >All Categories</span
-        >
-        <span class="py-4 border-b capitalize ml-12">shoes</span>
-        <span class="py-4 border-b capitalize ml-12">t-shirts</span>
-        <span class="py-4 border-b capitalize ml-12">Jackets</span>
-        <span class="py-4 border-b capitalize ml-12">trousers</span>
-      </nav>
-      <h2 class="text-current text-5xl font-bold">Top Rated</h2>
-    </div>
-    <!-- <div class="flex my-8">
-      <Card v-for="i in 4" :key="i"></Card>
-    </div> -->
-    <div
-      class="flex flex-col w-full flex-wrap md:flex-row md:justify-around my-16"
-    >
-      <Card v-for="i in 4" :key="i"></Card>
-    </div>
-  </div>
-  <div class=" lg:container lg:mx-auto z-50 ">
-    <div id="header" class="flex justify-between items-center pl-8 mt-6">
-      <h2 class="text-current text-5xl font-bold">Best Deals</h2>
-      <select
-        name=""
-        id=""
-        class="border py-4 px-6 rounded-md border-gray-300 md:hidden "
-      >
-        <option v-for="i in 5" :key="i" value="all" class="h-12 hover:text-4xl"
-          >All Categories {{ i }}</option
-        >
-      </select>
-      <nav class="hidden md:flex justify-between mr-4 font-normal">
-        <span
-          class="py-4 border-b-4 capitalize font-semibold  border-current-light"
-          >All Categories</span
-        >
-        <span class="py-4 border-b capitalize ml-12">shoes</span>
-        <span class="py-4 border-b capitalize ml-12">t-shirts</span>
-        <span class="py-4 border-b capitalize ml-12">Jackets</span>
-        <span class="py-4 border-b capitalize ml-12">trousers</span>
-      </nav>
-    </div>
-    <!-- <div class="flex my-8">
-      <Card v-for="i in 4" :key="i"></Card>
-    </div> -->
-    <div
-      class="flex flex-col w-full flex-wrap md:flex-row md:justify-around my-16"
-    >
-      <Card v-for="i in 4" :key="i"></Card>
-    </div>
-  </div>
+  <Trend></Trend>
+  <TopRated></TopRated>
+  <BestDeals></BestDeals>
+
   <div class="bg-gray-100 flex">
     <div class="m-auto py-16">
       <h1 class="text-5xl mb-4 text-current text-center font-bold">
@@ -212,9 +120,11 @@
 </template>
 
 <script>
-import Card from "../components/Card.vue";
+import Trend from "../components/Trend.vue";
+import TopRated from "../components/TopRated.vue";
+import BestDeals from "../components/BestDeals.vue";
 export default {
-  components: { Card },
+  components: { TopRated, BestDeals, Trend },
 };
 </script>
 

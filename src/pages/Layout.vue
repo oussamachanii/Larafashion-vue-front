@@ -36,7 +36,7 @@
       :class="!isNav ? 'hidden' : 'static'"
     >
       <div class="flex justify-around items-center font-semibold  w-full ">
-        <router-link to="/" class="w-1/4">Shop</router-link>
+        <router-link :to="{ name: 'search' }" class="w-1/4">Shop</router-link>
         <router-link to="/" class="w-1/4">Women</router-link>
         <router-link to="/" class="w-1/4">Men</router-link>
 

@@ -113,7 +113,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["product"],
+};
 </script>
 
 <style></style>

@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/product/1000">
+  <router-link :to="{ name: 'product', params: { id: product?.data?.id } }">
     <div
       class="flex w-full md:w-96 lg:w-72 relative	border shadow-lg mr-1 h-40 rounded-lg overflow-hidden my-3 md:flex-col  md:h-96 "
     >
@@ -23,34 +23,46 @@
       </button>
       <div class=" h-40 w-1/3 md:w-full  md:h-full relative">
         <img
-          src="../assets/Sweater.jpg"
+          v-if="product?.image?.src"
+          :src="product?.image?.src"
+          class="absolute w-full h-full object-cover rounded-lg"
+          alt="product photo"
+        />
+        <img
+          v-else
+          src="../assets/NotFound.jpg"
           class="absolute w-full h-full object-cover rounded-lg"
           alt="product photo"
         />
       </div>
       <div class="flex flex-grow h-40 flex-row md:h-1/4  relative ">
         <div
-          class="ml-4 md:flex absolute hidden rounded-full  items-center -top-3 right-2"
+          class="ml-4 md:flex absolute hidden rounded-xl items-center -top-3 right-2"
         >
           <p
-            v-for="i in 4"
-            :key="i"
-            :class="'z-' + i + '0'"
-            class=" w-5 h-5 border -ml-2 bg-red-800 rounded-full"
+            v-for="color in product?.colors"
+            :key="color.id"
+            :style="'background-color:' + color.color_Hex + ';'"
+            class=" w-5 h-5 border -ml-2 rounded-full"
           ></p>
         </div>
         <div
-          class=" flex-grow px-4 items-center my-auto md:px-2 md:h-full md:mt-3 "
+          class=" flex-grow px-4 items-center my-auto md:px-2 md:h-full md:mt-3  "
         >
           <h1
-            class="text-2xl font-semibold truncate text-gray-900 md:text-xl text-left  "
+            class="text-2xl w-56 font-semibold truncate text-gray-900 md:text-xl text-left"
           >
-            Nice Jacket with Necklace
+            {{ product?.data?.title }}
           </h1>
           <div class="flex md:mt-1 md:justify-between md:items-center md:px-1">
             <div class="flex">
               <svg
-                v-for="i in 3"
+                :class="
+                  i <= product?.rating?.stars
+                    ? 'text-current-light'
+                    : 'text-gray-300'
+                "
+                v-for="i in 5"
                 :key="i"
                 class="w-5 h-5 fill-current text-current-light"
                 fill="currentColor"
@@ -61,23 +73,21 @@
                   d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                 ></path>
               </svg>
-              <svg
-                v-for="i in 2"
-                :key="i"
-                class="w-5 h-5 fill-current text-gray-300"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                ></path>
-              </svg>
-              <p class="text-gray-400 ml-1 text-sm ">(30)</p>
+
+              <p class="text-gray-400 ml-1 text-sm ">
+                ({{ product?.rating?.times }})
+              </p>
             </div>
             <div class="md:flex items-center hidden">
-              <h3 class="text-xl font-semibold md:text-md md:mr-1  ">$200</h3>
-              <h5 class="text-gray-400 line-through md:text-sm">$300</h5>
+              <h3 class="text-xl font-semibold md:text-md md:mr-1  ">
+                ${{ product?.data?.price }}
+              </h3>
+              <h5
+                v-if="product?.data?.discount != 0"
+                class="text-gray-400 line-through md:text-sm"
+              >
+                {{ product?.data?.discount }}%
+              </h5>
             </div>
           </div>
           <div class="mt-2 md:hidden " id="spesifications">
@@ -96,15 +106,21 @@
                 >
                   For :
                 </h2>
-                <p class=" font-bold text-gray-600 font-lg ">
-                  Female
+                <p
+                  v-if="product?.data?.sex > 0"
+                  class=" font-bold text-gray-600 font-lg "
+                >
+                  {{ product?.data?.sex == 1 ? "Male" : "Female" }}
+                </p>
+                <p v-else class=" font-bold text-gray-600 font-lg ">
+                  Both
                 </p>
                 <div class="ml-8 flex">
                   <p
-                    v-for="i in 4"
-                    :key="i"
-                    :class="'z-' + i + '0'"
-                    class=" w-6 h-6 border -ml-2 bg-red-800 rounded-full"
+                    v-for="color in product?.colors"
+                    :key="color.id"
+                    :style="'background-color:' + color.color_Hex + ';'"
+                    class=" w-5 h-5 border -ml-2 rounded-full"
                   ></p>
                 </div>
               </div>
@@ -115,19 +131,34 @@
                   Size :
                 </h2>
                 <div
+                  v-if="product?.sizes?.length > 0"
                   class="flex w-full  font-sans font-bold text-gray-600 justify-between rounded-md"
                 >
-                  <p v-for="i in 4" :key="i" class="border p-2">XL {{ i }}</p>
+                  <p
+                    v-for="size in product?.sizes"
+                    :key="size.id"
+                    class="border p-2"
+                  >
+                    {{ size.title }}
+                  </p>
                 </div>
+                <p v-else class="border p-2">no sizes available</p>
               </div>
             </div>
           </div>
         </div>
-        <div class=" w-1/5 md:hidden ">
+        <div class=" w-2/5 md:hidden ">
           <div class="h-full flex-col flex justify-end ">
             <div class="my-auto ">
-              <h3 class="text-3xl font-bold md:text-md ">$200</h3>
-              <h5 class="text-gray-400 line-through md:text-sm">$300</h5>
+              <h3 class="text-3xl font-bold md:text-md ">
+                ${{ product?.data?.price }}
+              </h3>
+              <h5
+                v-if="product?.data?.discount != 0"
+                class="text-gray-400 line-through md:text-sm"
+              >
+                {{ product?.data?.discount }}%
+              </h5>
             </div>
           </div>
         </div>
@@ -238,7 +269,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["product"],
+};
 </script>
 
 <style></style>
