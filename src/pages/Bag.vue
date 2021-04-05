@@ -18,130 +18,106 @@
       </svg>
       <p class="text-2xl">Bag</p>
     </div>
-    <div class="flex items-center my-2 justify-end">
-      <h6 class="font-semibold text-xl text-current">Total :</h6>
-      <h6 class="text-2xl font-semibold ml-auto lg:ml-4">$90</h6>
-    </div>
-    <div
-      v-for="i in 7"
-      :key="i"
-      class="flex flex-col lg:flex-row  relative  justify-between border p-4 my-4 rounded-xl"
-    >
-      <button class=" lg:p-2 p-4 absolute top-0 right-0 bg-current-light z-50">
-        <svg
-          class="w-4 h-4 fill-current text-white"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
-      </button>
-      <div class="w-1/5  ">
-        <img
-          src="../assets/Sweater.jpg"
-          class="rounded-xl shadow-lg"
-          style="width:100px; heights:100px;"
-          alt="Fashion Model"
-          draggable="false"
-        />
-      </div>
+    <div class="flex items-center my-2 lg:my-0 justify-end ">
       <div
-        class=" flex flex-col  flex-grow align-middle mx-auto items-center lg:flex-row "
+        class="bg-current flex px-4 py-3 border shadow-lg rounded-sm  w-full lg:w-min"
       >
-        <div class="flex items-center flex-col my-4  w-full  lg:flex-row ">
-          <h1
-            class="text-3xl font-semibold overflow-ellipsis text-gray-900 md:text-xl text-left lg:text-4xl"
-          >
-            Nice Jacket with Necklace
-          </h1>
-          <div class="flex lg:my-2  ">
-            <svg
-              v-for="i in 5"
-              :key="i"
-              class="w-6 h-6 fill-current text-current-light"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              ></path>
-            </svg>
-            <p class="text-gray-400 ml-1 text-sm ">(30)</p>
-          </div>
-        </div>
-        <div class="flex lg:items-center lg:flex-row mx-auto lg:mx-4 ">
-          <h6 class="font-semibold text-xl text-current mb-2 ml-3 lg:mb-0 ">
-            Quantity:
-          </h6>
-          <div class="flex items-center mx-auto lg:mx-0  ">
-            <button
-              :disabled="quantity >= 10"
-              :class="quantity >= 10 ? 'cursor-not-allowed ' : ''"
-              @click="quantity <= 9 ? quantity++ : ''"
-              class="text-lg lg:text-sm font-semibold ml-auto lg:ml-4 border lg:p-2 p-4 rounded-lg"
-            >
-              <svg
-                class="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-            <input
-              type="text"
-              v-model="quantity"
-              class="px-4 py-4 lg:px-2 lg:py-1 mx-4 w-24 font-semibold text-xl rounded-xl focus:ring-0 shadow-lg bg-gray-300"
-            />
-            <button
-              :disabled="quantity < 1"
-              :class="quantity <= 1 ? 'cursor-not-allowed ' : ''"
-              @click="quantity > 1 ? quantity-- : ''"
-              class="text-lg font-semibold ml-auto lg:ml-4 border lg:p-2 p-4 rounded-lg"
-            >
-              <svg
-                class="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+        <h6 class="font-semibold text-2xl text-white">Total</h6>
+        <h6 class="text-2xl font-semibold ml-auto lg:ml-4 text-white">
+          ${{ totalPrice }}
+        </h6>
       </div>
-      <div class=" flex flex-col  w-full lg:w-1/5 mx-auto mt-3 ">
-        <h1 class="font-bold text-3xl text-center ">$200</h1>
-        <h5 class="text-gray-400 line-through text-center">$300</h5>
-      </div>
+    </div>
+    <div v-if="bagIds?.length == 0" class="w-full text-center my-8">
+      <p class="text-2xl font-bold text-current ">no product in the bag</p>
+    </div>
+    <div v-else-if="loading" class="w-full text-center my-8">
+      <p class="text-2xl font-bold text-current ">Loading...</p>
+    </div>
+    <div v-else class="w-full flex flex-wrap justify-around my-8">
+      <Card
+        v-for="product in products"
+        :key="product.id"
+        :product="product"
+        class=" w-full "
+      ></Card>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-
+import Card from "../components/Card";
+import { ref, computed, onMounted, watch } from "vue";
+import { useStore } from "vuex";
+import axios from "axios";
 export default {
   props: ["id"],
+  components: { Card },
   setup() {
+    const store = useStore();
     const quantity = ref(1);
-    return { quantity };
+    const bagIds = computed(() => store.getters.getBag);
+    const products = ref();
+    const totalPrice = computed(() => {
+      let total = 0;
+      try {
+        products.value.forEach((product) => {
+          total += parseInt(product.data.price);
+        });
+      } catch (error) {
+        return NaN;
+      }
+      return total;
+
+      // let d = new Date();
+      // if (products?.value) {
+      //   products?.value.forEach((product) => {
+      //     if (
+      //       product.data.discount > 0 &&
+      //       product.data.discount_start_date <= d &&
+      //       product.data.discount_end_date >= d
+      //     ) {
+      //       total = +product.data.price(
+      //         product.data.price * product.data.discount
+      //       );
+      //     }
+      //   });
+      //   return total;
+      // }
+      // return 0;
+    });
+    const loading = ref(true);
+
+    const loadProducts = () => {
+      axios
+        .get("product", { params: { ids: bagIds.value } })
+        .then((response) => {
+          products.value = response.data;
+          loading.value = false;
+        })
+        .catch((error) => {
+          store.commit("setToast", {
+            message: error.message,
+            type: "error",
+          });
+        });
+    };
+    onMounted(() => {
+      if (bagIds?.value.length != 1) {
+        loadProducts();
+      }
+    });
+    watch(
+      () => bagIds.value,
+      () => {
+        products.value = products.value.filter((product) => {
+          if (bagIds.value.includes(product.data.id)) return true;
+          return false;
+        });
+      }
+    );
+
+    return { quantity, products, totalPrice, bagIds, loading };
   },
 };
 </script>

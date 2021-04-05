@@ -37,7 +37,7 @@
         :class="
           Toast.type != 'error' ? 'text-gray-800 ' : 'text-white font-medium '
         "
-        class="text-md text-center truncate  text-white w-full mr-4 my-auto"
+        class="text-lg font-semibold text-center truncate  text-white w-full mr-4 my-auto"
       >
         {{ Toast.message }}
       </span>

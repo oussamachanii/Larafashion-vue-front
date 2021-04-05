@@ -1,9 +1,11 @@
 import { createStore } from "vuex";
 import auth from "./modules/auth";
+import bag from "./modules/bag";
 // Create a new store instance.
 const store = createStore({
   modules: {
     auth,
+    bag,
   },
   state() {
     return {

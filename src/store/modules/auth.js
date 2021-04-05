@@ -113,6 +113,31 @@ const actions = {
         });
       });
   },
+  logout({ commit }) {
+    axios
+      .post(
+        "logout",
+        { token: localStorage.getItem("api_token") },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("api_token")}`,
+          },
+        }
+      )
+      .then(() => {
+        commit("logOut");
+        commit("setToast", {
+          message: "your logged out successfully",
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        commit("setToast", {
+          message: error.message,
+          type: "error",
+        });
+      });
+  },
 };
 
 const getters = {

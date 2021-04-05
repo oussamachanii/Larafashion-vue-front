@@ -22,6 +22,14 @@ export default {
         store.commit("loadToken", localStorage.getItem("api_token"));
         store.dispatch("getUser");
       }
+      if (!localStorage.getItem("pagination")) {
+        localStorage.setItem("pagination", 50);
+      }
+      store.commit("loadBag");
+      setInterval(() => {
+        //load the bag variable to the local storage every 30 sec
+        store.commit("loadStorage");
+      }, 30000);
     });
     return { isToast };
   },
