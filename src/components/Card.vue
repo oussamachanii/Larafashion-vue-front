@@ -37,14 +37,14 @@
         ></path>
       </svg>
     </div>
-    <router-link :to="{ name: 'product', params: { id: product?.data?.id } }">
+    <router-link :to="{ name: 'product', params: { id: product?.id } }">
       <div
         class="flex w-full h-full mr-1  rounded-lg overflow-hidden  md:flex-col"
       >
         <div class=" h-40 w-1/3 md:w-full  md:h-full relative">
           <img
-            v-if="product?.image?.src"
-            :src="product?.image?.src"
+            v-if="product?.images?.length > 0"
+            :src="product?.images[0].src"
             class="absolute w-full h-full object-cover rounded-t-lg"
             alt="product photo"
           />
@@ -72,7 +72,7 @@
             <h1
               class="text-2xl w-56 font-semibold truncate text-gray-900 md:text-xl text-left"
             >
-              {{ product?.data?.title }}
+              {{ product?.title }}
             </h1>
             <div
               class="flex md:mt-1 md:justify-between md:items-center md:px-1"
@@ -102,13 +102,13 @@
               </div>
               <div class="md:flex items-center hidden">
                 <h3 class="text-xl font-semibold md:text-md md:mr-1  ">
-                  ${{ product?.data?.price }}
+                  ${{ product?.price }}
                 </h3>
                 <h5
-                  v-if="product?.data?.discount != 0"
+                  v-if="product?.discount != 0"
                   class="text-gray-400 line-through md:text-sm"
                 >
-                  {{ product?.data?.discount }}%
+                  {{ product?.discount }}%
                 </h5>
               </div>
             </div>
@@ -129,10 +129,10 @@
                     For :
                   </h2>
                   <p
-                    v-if="product?.data?.sex > 0"
+                    v-if="product?.sex > 0"
                     class=" font-bold text-gray-600 font-lg "
                   >
-                    {{ product?.data?.sex == 1 ? "Male" : "Female" }}
+                    {{ product?.sex == 1 ? "Male" : "Female" }}
                   </p>
                   <p v-else class=" font-bold text-gray-600 font-lg ">
                     Both
@@ -173,13 +173,13 @@
             <div class="h-full flex-col flex justify-end ">
               <div class="my-auto ">
                 <h3 class="text-3xl font-bold md:text-md ">
-                  ${{ product?.data?.price }}
+                  ${{ product?.price }}
                 </h3>
                 <h5
-                  v-if="product?.data?.discount != 0"
+                  v-if="product?.discount != 0"
                   class="text-gray-400 line-through md:text-sm"
                 >
-                  {{ product?.data?.discount }}%
+                  {{ product?.discount }}%
                 </h5>
               </div>
             </div>
@@ -292,19 +292,22 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
   props: ["product"],
   setup(props) {
     const store = useStore();
-    const id = computed(() => props.product?.data?.id);
+    const id = computed(() => props.product?.id);
     const Bag = computed(() => store.getters.getBag);
     const inBag = computed(() => Bag.value.find((item) => item == id.value));
 
     const bagClicked = () => {
       return store.commit("setBagItem", id.value);
     };
+    onMounted(() => {
+      console.log(props.product.images);
+    });
     return { inBag, bagClicked };
   },
 };
