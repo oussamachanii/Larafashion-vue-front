@@ -54,7 +54,7 @@
           </svg>
         </div>
       </div>
-      <DropDown v-show="IsDropOpen"></DropDown>
+      <DropDown :is_home="false" v-show="IsDropOpen"></DropDown>
       <div
         @click="IsDropOpen = false"
         id="navLiks"
