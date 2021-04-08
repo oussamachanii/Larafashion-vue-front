@@ -37,8 +37,12 @@
     >
       <div class="flex justify-around items-center font-semibold  w-full ">
         <router-link :to="{ name: 'search' }" class="w-1/4">Shop</router-link>
-        <router-link to="/" class="w-1/4">Women</router-link>
-        <router-link to="/" class="w-1/4">Men</router-link>
+        <router-link :to="{ name: 'search', query: { sex: 2 } }" class="w-1/4"
+          >Women</router-link
+        >
+        <router-link :to="{ name: 'search', query: { sex: 1 } }" class="w-1/4"
+          >Men</router-link
+        >
 
         <!-- <div class="p-3 cursor-pointer">
         <svg
@@ -121,6 +125,7 @@
             class="items-center ml-3 p-2 w-45 flex relative  text-left z-50 mr-8"
           >
             <h6
+              v-if="user"
               class=" truncate font-semibold text-xl select-none  text-gray-800"
             >
               <!-- oussama chanii -->
@@ -129,6 +134,12 @@
                   ? user?.first_name + " " + user?.last_name
                   : user?.email
               }}
+            </h6>
+            <h6
+              v-else
+              class="truncate font-semibold text-xl select-none  text-gray-800 "
+            >
+              Loading...
             </h6>
             <!-- <p class=" truncate text-lg select-none  text-gray-500">
             chaniioussama1@gmail.com
@@ -146,7 +157,11 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <DropDown v-show="IsDropOpen" @logOut="logOut"></DropDown>
+            <DropDown
+              :is_admin="user?.is_admin ?? false"
+              v-show="IsDropOpen"
+              @logOut="logOut"
+            ></DropDown>
           </div>
         </div>
       </div>
@@ -162,9 +177,11 @@
           LaraFashion.
         </h1>
         <div class="flex w-52 justify-between ">
-          <router-link to="/" class="w-1/4">Shop</router-link>
-          <router-link to="/" class="w-1/4">Women</router-link>
-          <router-link to="/" class="w-1/4">Men</router-link>
+          <router-link :to="{ name: 'search' }" class="w-1/4">Shop</router-link>
+          <router-link :to="{ name: 'search' }" class="w-1/4"
+            >Women</router-link
+          >
+          <router-link :to="{ name: 'search' }" class="w-1/4">Men</router-link>
         </div>
       </div>
       <div class="flex justify-between p-4 mb-4 items-center">

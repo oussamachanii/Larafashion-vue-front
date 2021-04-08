@@ -62,35 +62,17 @@ export default {
       let total = 0;
       try {
         products.value.forEach((product) => {
-          total += parseInt(product.data.price);
+          total += parseInt(product.price);
         });
       } catch (error) {
-        return NaN;
+        return 0;
       }
       return total;
-
-      // let d = new Date();
-      // if (products?.value) {
-      //   products?.value.forEach((product) => {
-      //     if (
-      //       product.data.discount > 0 &&
-      //       product.data.discount_start_date <= d &&
-      //       product.data.discount_end_date >= d
-      //     ) {
-      //       total = +product.data.price(
-      //         product.data.price * product.data.discount
-      //       );
-      //     }
-      //   });
-      //   return total;
-      // }
-      // return 0;
     });
     const loading = ref(true);
-
     const loadProducts = () => {
       axios
-        .get("product", { params: { ids: bagIds.value } })
+        .get("bag", { params: { ids: bagIds.value } })
         .then((response) => {
           products.value = response.data;
           loading.value = false;

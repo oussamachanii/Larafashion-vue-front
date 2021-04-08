@@ -41,7 +41,12 @@
       v-else
       class="flex flex-col w-full flex-wrap md:flex-row md:justify-around my-16"
     >
+      <p v-if="products.length == 0" class="font-semibold text-2xl">
+        No content Loaded !
+      </p>
+
       <Card
+        v-else
         v-for="product in products"
         :key="product.id"
         :product="product"
@@ -67,7 +72,6 @@ export default {
         .get("trend")
         .then((response) => {
           products.value = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);

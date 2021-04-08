@@ -292,7 +292,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   props: ["product"],
@@ -305,9 +305,6 @@ export default {
     const bagClicked = () => {
       return store.commit("setBagItem", id.value);
     };
-    onMounted(() => {
-      console.log(props.product.images);
-    });
     return { inBag, bagClicked };
   },
 };

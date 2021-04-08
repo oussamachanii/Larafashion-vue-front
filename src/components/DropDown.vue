@@ -7,12 +7,21 @@
   >
     <div class="py-1" role="none">
       <router-link
+        v-if="is_admin == 1"
+        :to="{ name: 'users' }"
+        class="block px-4 py-2 text-lg font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+        role="menuitem"
+      >
+        Dashboard</router-link
+      >
+      <router-link
         :to="{ name: 'settings' }"
         class="block px-4 py-2 text-lg font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
         role="menuitem"
       >
         Settings</router-link
       >
+
       <button
         @click="$emit('logOut')"
         class="block w-full text-left px-4 py-2 text-lg font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
@@ -25,7 +34,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["is_admin"],
+};
 </script>
 
 <style></style>
