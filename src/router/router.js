@@ -24,7 +24,12 @@ const routes = [
     children: [
       { name: "home", path: "/", component: Home },
       { name: "bag", path: "/bag", component: Bag },
-      { name: "search", path: "/search", component: Search, props: true },
+      {
+        name: "search",
+        path: "/search",
+        component: Search,
+        props: (route) => ({ query: route.query.q }),
+      },
       // { name: "about", path: "/about", component: About },
       {
         name: "product",
@@ -60,10 +65,12 @@ const routes = [
   {
     path: "/dashboard/",
     component: Dashboard,
+    name: "dashboard",
     beforeEnter: (_, __, next) => {
-      if (store.state.auth.api_token && store.state.user == 1) return next();
+      if (store.state.auth.api_token && store.state.auth.user.is_admin == 1)
+        return next();
       // if (store.state.user == 0) next(from);
-      if (store.state.auth.api_token && store.state.user == 0)
+      if (store.state.auth.api_token && store.state.auth.user.is_admin == 0)
         return history.back();
       return next("/sign-in");
       // store.state.user == 1 ? next() : next("/login");
