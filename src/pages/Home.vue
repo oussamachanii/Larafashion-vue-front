@@ -18,9 +18,11 @@
         <div class="flex px-3 justify-between lg:justify-start my-16 lg:my-8 ">
           <input
             type="text"
+            v-model="search"
             class="px-4 py-4 w-4/5 mr-4 shadow-lg lg:-ml-4 bg-gray-300 rounded-xl focus:bg-gray-200 focus:rounded-xl focus:shadow-2xl text-xl"
           />
           <button
+            @click="searchHome"
             class=" w-1/5 bg-current py-4 px-8 rounded-xl shadow-lg transform hover:scale-110"
           >
             <svg
@@ -123,8 +125,23 @@
 import Trend from "../components/Trend.vue";
 import TopRated from "../components/TopRated.vue";
 import BestDeals from "../components/BestDeals.vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 export default {
   components: { TopRated, BestDeals, Trend },
+  setup() {
+    const search = ref();
+    const router = useRouter();
+    const searchHome = () => {
+      if (search.value) {
+        router.push({
+          name: "search",
+          query: { title: search.value },
+        });
+      }
+    };
+    return { search, searchHome };
+  },
 };
 </script>
 

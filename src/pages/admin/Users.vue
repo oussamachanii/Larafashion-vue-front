@@ -207,7 +207,7 @@ export default {
           .then(() => {
             users.value.data = users.value.data.filter((user) => user.id != id);
             store.commit("setToast", {
-              message: "User Successfuly Deleted",
+              message: "User Successfully Deleted",
               type: "success",
             });
             cancel();
