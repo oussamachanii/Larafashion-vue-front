@@ -159,6 +159,7 @@
             </svg>
             <DropDown
               :is_admin="user?.is_admin ?? false"
+              :is_home="true"
               v-show="IsDropOpen"
               @logOut="logOut"
             ></DropDown>

@@ -34,18 +34,16 @@
           aria-label="Pagination"
         >
           <button
+            @click="$emit('paginate', link.url)"
             v-for="(link, index) in meta.links"
             :key="link.label"
-            @click="$emit('paginate', link.url)"
-            :disabled="!link.url || link.lable !== '...' ? true : false"
+            :disabled="!link.url"
             class="relative inline-flex items-center px-2 py-2 border appearance-none focus:ring-0 "
             :class="[
-              link.active && link.lable !== '...'
+              link.active
                 ? 'bg-gray-200 text-md font-semibold text-gray-800 hover:bg-gray-500'
                 : 'bg-white text-sm font-medium text-gray-500 hover:bg-gray-50',
-              !link.url && link.lable !== '...'
-                ? 'cursor-not-allowed bg-gray-300'
-                : '',
+              !link.url ? 'cursor-not-allowed bg-gray-300' : '',
             ]"
           >
             <!-- <span class="sr-only">Previous</span> -->
