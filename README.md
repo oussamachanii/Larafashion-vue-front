@@ -2,8 +2,33 @@
 
 # Design
 
-###Simple an clean landing page
+### Simple an clean landing page
+
 ![Landing page](./public/LandingPage.jpg)
+
+### Vue-router Query based search
+
+![search page](./public/search.jpg)
+
+### vuex Card System
+
+![Card page](./public/bag.jpg)
+
+### multi component settings page
+
+![settings page](./public/settings.jpg)
+
+### Goog looking Tailwindcss dashboard with pagination
+
+![dashboard page](./public/dashboard.jpg)
+
+### Modal system
+
+![products page](./public/card.jpg)
+
+### Modal system
+
+![products page](./public/card.jpg)
 
 ## Project setup
 
