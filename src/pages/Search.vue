@@ -366,6 +366,7 @@
         </p>
 
         <Card
+          class="mx-3"
           v-else
           v-for="product in products?.data"
           :key="product.id"
