@@ -31,7 +31,7 @@
               </span>
             </div>
           </div>
-          <form id="form" class="">
+          <div class="">
             <div class=" w-11/12 mx-auto my-6 ">
               <slot name="main"></slot>
             </div>
@@ -40,7 +40,7 @@
             >
               <slot name="footer"></slot>
             </div>
-          </form>
+          </div>
         </div>
       </transition>
     </div>

@@ -71,7 +71,7 @@
                 class="text-2xl my-2 leading-6 font-semibold text-gray-900"
                 id="modal-title"
               >
-                Deactivate account
+                {{ header }}
               </h3>
               <div class="mt-2">
                 <p class="text-md text-gray-500">
@@ -104,7 +104,7 @@
 
 <script>
 export default {
-  props: ["message", "user"],
+  props: ["message", "header", "user"],
 };
 </script>
 

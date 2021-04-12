@@ -4,6 +4,7 @@
     @delete="Delete"
     v-if="inDelete"
     message="are you sur that you want to delete this user"
+    header="Delete User"
     :user="inDeleteUser"
   ></DeleteConfirmation>
   <header class="flex ">
