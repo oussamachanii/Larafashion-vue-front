@@ -11,6 +11,7 @@ import Information from "../pages/Information";
 import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import NotFound from "../pages/NotFound";
+import Category from "../pages/admin/Category";
 import Purchases from "../pages/admin/Purchases";
 import Products from "../pages/admin/Products";
 import ProductDetail from "../pages/admin/ProductDetail";
@@ -100,6 +101,7 @@ const routes = [
         props: true,
       },
       { name: "purchases", path: "/purchases", component: Purchases },
+      { name: "categories", path: "/categories", component: Category },
       // { name: "about", path: "/about", component: About },
       // { name: "product", path: "/product/:id", component: Product },
     ],
