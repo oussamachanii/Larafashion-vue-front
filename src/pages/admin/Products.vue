@@ -20,7 +20,7 @@
     </template>
     <template #main>
       <div class="flex my-2">
-        <div class="mb-2 mr-2">
+        <div class="mb-2 mr-2 w-1/2">
           <label
             for="Name"
             class=" block mb-2 font-semibold text-lg text-current "
@@ -36,7 +36,7 @@
              border-gray-300 rounded-md"
           />
         </div>
-        <div class="mb-2 ml-2">
+        <div class="mb-2 ml-2 w-1/2">
           <label
             for="Price"
             class=" block mb-2 font-semibold text-lg text-current "
