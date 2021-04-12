@@ -1,46 +1,4 @@
 <template>
-  <Modal
-    v-if="isModalOpen"
-    @close-modal="isModalOpen = !isModalOpen"
-    class="fixed top-0 left-0 "
-  >
-    <template #header>
-      <div class=" ml-6 flex-grow">
-        <h2 class="font-bold">Add Edition</h2>
-      </div>
-    </template>
-    <template #main>
-      <div class="mb-2">
-        <label
-          for="quantity"
-          class=" block mb-2 font-semibold text-lg text-current "
-        >
-          Quantity</label
-        >
-        <input
-          ref="quantity"
-          type="number"
-          name="quantity"
-          class="text-xl font-medium text-body  p-4 bg-gray-100  
-            focus:ring-blue-600  focus:border-blue-500 w-full shadow-sm
-             border-gray-300 rounded-md"
-        />
-      </div>
-    </template>
-    <template #footer>
-      <button
-        class="w-full inline-flex justify-center text-lg font-semibold rounded-md border border-transparent shadow-sm px-6 py-2   text-white bg-current hover:bg-current-light focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-      >
-        Add
-      </button>
-      <button
-        @click="isModalOpen = !isModalOpen"
-        class="w-full inline-flex justify-center rounded-md border  text-lg font-semibold shadow-sm px-6 py-2 bg-white  text-gray-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-      >
-        Cancel
-      </button>
-    </template>
-  </Modal>
   <header class="mb-4 flex -ml-4 items-center ">
     <router-link :to="{ name: 'products' }" class="text-current-dark">
       <svg
@@ -66,7 +24,7 @@
         Information
       </h1>
     </div>
-    <form id="form" class="w-full mt-4 ">
+    <form id="form" class="w-full mt-4" @submit.prevent="update">
       <div id="content" class="grid grid-cols-3 gap-4">
         <div class="mb-1">
           <label
@@ -78,8 +36,8 @@
           <input
             ref="name"
             name="name"
-            type="text"
-            class="text-md  p-2 bg-gray-100  
+            v-model="product.title"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -93,9 +51,10 @@
           >
           <input
             ref="price"
-            type="umber"
+            type="number"
             name="price"
-            class="text-md p-2 bg-gray-100  
+            v-model="product.price"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -110,27 +69,29 @@
           <select
             ref="sex"
             name="sex"
-            class="text-md p-2 bg-gray-100  
+            v-model="product.sex"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           >
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="both">Both</option>
+            <option :value="1">Men</option>
+            <option :value="2">Women</option>
+            <option :value="3">Both</option>
           </select>
         </div>
         <div class="mb-1 col-span-3">
           <label
-            for="discription"
+            for="description"
             class=" block mb-1 font-semibold text-lg text-current "
           >
-            Discription</label
+            Description</label
           >
           <textarea
-            ref="discription"
+            ref="description"
             type="text"
-            name="discription"
-            class="text-md p-2 bg-gray-100  
+            name="description"
+            v-model="product.description"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -145,10 +106,11 @@
           <input
             ref="discount"
             type="number"
-            min="1"
+            min="0"
             max="99"
             name="discount"
-            class="text-md p-2 bg-gray-100  
+            v-model="product.discount"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -164,7 +126,8 @@
             ref="discountStart"
             type="date"
             name="discountStart"
-            class="text-md p-2 bg-gray-100  
+            v-model="product.discount_start_date"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -180,7 +143,8 @@
             ref="discountEnd"
             type="date"
             name="discountEnd"
-            class="text-md p-2 bg-gray-100  
+            v-model="product.discount_end_date"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
@@ -196,56 +160,57 @@
           <input
             ref="shipping"
             name="shipping"
-            class="text-md p-2 bg-gray-100  
+            type="number"
+            v-model="product.shipping"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
           />
         </div>
-        <div class="mb-1 flex items-end justify-between  ">
-          <div class="w-4/5">
-            <label
-              for="category"
-              class=" block mb-1 font-semibold text-lg text-current "
-            >
-              Category</label
-            >
-            <select
-              ref="category"
-              name="category"
-              class="text-md p-2 bg-gray-100  
+        <div class="mb-1">
+          <label
+            for="quantity"
+            class=" block mb-1 font-semibold text-lg text-current "
+          >
+            Quantity
+          </label>
+          <input
+            ref="quantity"
+            name="quantity"
+            type="number"
+            v-model="product.quantity"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
             focus:ring-current  focus:border-current-light w-full shadow-sm
              border rounded-md"
+          />
+        </div>
+        <div class="mb-1 ">
+          <label
+            for="sex"
+            class=" block mb-2 font-semibold text-lg text-current "
+          >
+            Category</label
+          >
+          <select
+            ref="category"
+            name="category"
+            v-model="product.category_id"
+            class="text-md font-semibold px-2 py-4 bg-gray-100  
+            focus:ring-current  focus:border-current-light w-full shadow-sm
+             border rounded-md"
+          >
+            <option
+              v-for="category in categories"
+              :key="category.id"
+              :value="category.id"
+              >{{ category.title }}</option
             >
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="both">Both</option>
-            </select>
-          </div>
-          <div class="w-1/5  ml-2">
-            <button
-              @submit.prevent
-              class="p-3 ml-auto w-full rounded-lg bg-current"
-            >
-              <svg
-                class="w-4 h-4 stroke-current text-white mx-auto"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                ></path>
-              </svg>
-            </button>
-          </div>
+          </select>
         </div>
       </div>
       <div class="py-4 flex ">
         <button
+          type="submit"
           class="py-3 px-8 border shadow-md  text-lg font-semibold rounded-lg ml-auto text-white bg-current hover:bg-current-light focus:outline-none focus:ring-2 focus:ring-offset-2"
         >
           save
@@ -253,128 +218,86 @@
       </div>
     </form>
   </div>
-  <div class="my-8  rounded-lg shadow-md border p-4 ">
-    <div class=" mt-2 mb-6 flex justify-between">
-      <h1 class="text-2xl font-semibold text-gray-700 ">
-        Editions
-      </h1>
-      <button
-        @click="isModalOpen = !isModalOpen"
-        class="py-3 px-8 border shadow-md  text-lg font-semibold rounded-lg ml-auto text-white bg-current hover:bg-current-light focus:outline-none focus:ring-2 focus:ring-offset-2"
-      >
-        Add
-      </button>
-    </div>
-    <Table>
-      <template #Header>
-        <th
-          class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider"
-          v-for="th in ths"
-          :key="th"
-        >
-          {{ th }}
-        </th>
-      </template>
-      <template #Content>
-        <tr v-for="edition in editions" :key="edition.id">
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-md font-semibold text-gray-900">
-              {{ edition.size }}
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-md font-semibold text-gray-900">
-              {{ edition.quantity }}
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-md flex font-semibold text-gray-900">
-              <span
-                class="p-4 rounded-full -ml-2"
-                v-for="color in edition.colors"
-                :key="color"
-                :style="`background-color :${color}; `"
-              >
-              </span>
-            </div>
-          </td>
-          <td
-            class="px-6 py-4 whitespace-nowrap flex justify-end text-right text-sm font-medium"
-          >
-            <router-link
-              :to="{ name: 'edition', params: { id: edition.id } }"
-              class="my-auto px-3 py-1 rounded-lg mr-4 shadow-md  border hover:bg-gray-300 focus:outline-none "
-            >
-              <svg
-                class="w-6 h-6 stroke-current text-gray-800"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                ></path>
-              </svg>
-            </router-link>
-            <button
-              class="my-auto px-3 py-1 border border-transparent rounded-lg shadow-md  bg-red-600 hover:bg-red-700 focus:outline-none "
-            >
-              <svg
-                class="w-6 h-6 stroke-current text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </button>
-          </td>
-        </tr>
-      </template>
-    </Table>
-  </div>
+  <Colors :productId="id"></Colors>
+  <Sizes :productId="id"></Sizes>
+  <Images :productId="id"></Images>
 </template>
 
 <script>
-import { ref } from "vue";
-import Table from "../../components/Table.vue";
-import Modal from "../../components/Modal.vue";
+import Colors from "../../components/productsDetail/Colors.vue";
+import Sizes from "../../components/productsDetail/Sizes.vue";
+import Images from "../../components/productsDetail/Images.vue";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import axios from "axios";
 export default {
-  components: { Table, Modal },
+  components: { Colors, Sizes, Images },
+  props: ["id"],
   setup() {
     const ths = ["Size", "Quantity", "Colors"];
-    const editions = ref([
-      {
-        id: 312209131,
-        size: "XL , XLL , XLL",
-        quantity: 442,
-        colors: ["#B91C1C", "#B45309", "#047857", "#1D4ED8"],
-      },
-      {
-        id: 3121646531,
-        size: "XL , XLL , XLL",
-        quantity: 442,
-        colors: ["#B91C1C", "#B45309", "#047857", "#1D4ED8"],
-      },
-      {
-        id: 311000931,
-        size: "XL , XLL , XLL",
-        quantity: 442,
-        colors: ["#B91C1C", "#B45309", "#047857", "#1D4ED8"],
-      },
-    ]);
-    const isModalOpen = ref(false);
-    return { ths, editions, isModalOpen };
+    const loading = ref(false);
+    const route = useRoute();
+    const store = useStore();
+    const product = ref({});
+
+    const getData = () => {
+      loading.value = true;
+      axios
+        .get("product/" + route.params.id)
+        .then((response) => {
+          product.value = response.data[0];
+          console.log(response.data[0]);
+        })
+        .catch((error) => {
+          store.commit("setToast", {
+            message: error.message,
+            type: "error",
+          });
+        })
+        .finally((loading.value = false));
+    };
+    const categories = ref([{}]);
+    const getCategoryData = () => {
+      axios
+        .get("category")
+        .then((response) => {
+          categories.value = response.data;
+        })
+        .catch((error) => {
+          store.commit("setToast", {
+            message: error.message,
+            type: "error",
+          });
+        })
+        .finally((loading.value = false));
+    };
+    onMounted(() => {
+      getData();
+      getCategoryData();
+    });
+    const config = {
+      headers: { Authorization: `Bearer ${store.state.auth.api_token}` },
+    };
+    const update = () => {
+      axios
+        .put("product/" + product.value.id, product.value, config)
+        .then((response) => {
+          product.value = response.value;
+          store.commit("setToast", {
+            message: "Product Successfully updated",
+            type: "success",
+          });
+        })
+        .catch((error) => {
+          store.commit("setToast", {
+            message: error.message,
+            type: "error",
+          });
+        });
+    };
+
+    return { ths, categories, product, update };
   },
 };
 </script>
