@@ -26,10 +26,6 @@
 
 ![products page](./public/card.jpg)
 
-### Modal system
-
-![products page](./public/card.jpg)
-
 ## Project setup
 
 ```
