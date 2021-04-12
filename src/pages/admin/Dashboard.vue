@@ -34,7 +34,11 @@
           <h6
             class=" truncate font-semibold text-xl select-none  text-gray-800"
           >
-            oussama chanii
+            {{
+              user?.first_name
+                ? user?.first_name + " " + user?.last_name
+                : user?.email
+            }}
           </h6>
           <!-- <p class=" truncate text-lg select-none  text-gray-500">
             chaniioussama1@gmail.com
@@ -85,12 +89,15 @@
 <script>
 import DropDown from "../../components/DropDown";
 // import { useStore } from "vuex";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 export default {
   components: { DropDown },
   setup() {
     const route = useRoute();
+    const store = useStore();
+    const user = computed(() => store.getters.getUser);
     const setNavColor = (link) => {
       if (route.name == link) {
         return "font-bold text-white  h-14 bg-gradient-to-l from-current-light to-current rounded-md";
@@ -129,9 +136,16 @@ export default {
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path></svg>
           `,
       },
+      {
+        name: "categories",
+        to: "categories",
+        svg: `
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
+          `,
+      },
     ]);
 
-    return { setNavColor, navLinks, IsDropOpen, IsBar };
+    return { setNavColor, navLinks, IsDropOpen, IsBar, user };
   },
 };
 </script>
